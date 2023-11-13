@@ -1,52 +1,55 @@
 import { useEffect, useState } from "react";
 import useAxios from "./hooks/useAxios";
-import JoblyApi from "./api";
 import { useParams, Link } from "react-router-dom";
+import JobCard from "./JobCard";
+import useJoblyAPI from "./hooks/useJoblyAPI";
 
-function CompanyDetails({ handle, description, name }) {
+function CompanyDetails({ username }) {
     const param = useParams();
     const [data, setData] = useState();
+
+    const [JoblyApi, clearUserInfo, localUsername, addUserToken] =
+        useJoblyAPI();
+
+    const [appliedList, setAppliedList] = useState([]);
     useEffect(() => {
         async function retrieveData() {
+            console.log(param);
             const data = await JoblyApi.getCompany(param.id);
-            console.log(data);
+            const userData = await JoblyApi.getUserData(username);
+            setAppliedList(userData.applications);
             setData(data);
         }
         retrieveData();
     }, []);
 
+    function applyToJob(id) {
+        JoblyApi.applyToJob(username, id);
+    }
     return (
         <>
             {data ? (
                 <>
                     <h5>{data.name}</h5>
                     <p>{data.description}</p>
-                    {data.jobs.map((element) => {
-                        {
-                            console.log(element);
-                        }
+                    {data.jobs.map((ele, ind) => {
                         return (
-                            <div
-                                className="card"
-                                style={{
-                                    width: "90%",
-                                    marginTop: "1rem",
-                                    marginLeft: "auto",
-                                    marginRight: "auto",
-                                }}
+                            <JobCard
+                                id={ele.id}
+                                equity={ele.equity}
+                                key={ind}
+                                title={ele.title}
+                                salary={ele.salary}
+                                companyName={ele.companyName}
+                                appliedList={appliedList}
+                                applyToJob={applyToJob}
                             >
-                                <div className="card-body">
-                                    <p> Salary: {element.salary}</p>
-                                    <p> Equity: {element.equity} </p>
-                                    <button className="btn-danger"> Apply </button>
-                                </div>
-                            </div>
+                            </JobCard>
                         );
                     })}
                 </>
             ) : null}
 
-            {data ? <h1> {data.handle}</h1> : null}
         </>
     );
 }

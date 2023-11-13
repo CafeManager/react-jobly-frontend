@@ -1,10 +1,5 @@
-import { useState } from "react";
-import axios from "axios";
-import uuid from "uuid";
 
 function useLocalStorage() {
-    const [data, setData] = useState();
-
     function getLocalItem(item) {
         return localStorage.getItem(item) ? localStorage.getItem(item) : "";
     }

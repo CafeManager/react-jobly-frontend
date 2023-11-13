@@ -8,7 +8,6 @@ function CompanyList() {
     const [query, setQuery] = useState("");
     console.log("CompanyList render");
     useEffect(() => {
-        console.log("companylist useeffect");
         async function retrieveData() {
             const data = await JoblyApi.getCompanies(query);
             setData(data);

@@ -1,6 +1,4 @@
-import { NavLink, Link, Redirect, useHistory } from "react-router-dom";
-import useLocalStorage from "./hooks/useLocalStorage";
-import useJoblyAPI from "./hooks/useJoblyAPI";
+import { NavLink, useHistory } from "react-router-dom";
 
 function NavBar({ username, clearUserInfo, setCurrUser }) {
     const history = useHistory();

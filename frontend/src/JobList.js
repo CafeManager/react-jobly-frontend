@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import JoblyApi from "./api";
-import CompanyCard from "./CompanyCard";
 import SearchForm from "./SearchForm";
 import JobCard from "./JobCard";
 
@@ -8,19 +7,15 @@ function JobList({ username = "" }) {
     const [data, setData] = useState();
     const [query, setQuery] = useState("");
     const [appliedList, setAppliedList] = useState([]);
-    console.log("JobList render");
     useEffect(() => {
-        console.log("JobList useeffect");
         async function retrieveData() {
             const data = await JoblyApi.getJobs(query);
             const userData = await JoblyApi.getUserData(username);
-            console.log(userData);
-            console.log(data);
             setAppliedList(userData.applications);
             setData(data);
         }
         retrieveData();
-    }, [query]);
+    }, [query, username]);
 
     function queryJobs(data) {
         setQuery(data);

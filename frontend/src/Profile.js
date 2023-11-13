@@ -1,8 +1,5 @@
 import { useState, useEffect } from "react";
-import { Redirect, useHistory, useParams } from "react-router-dom";
-// import JoblyApi from "./api";
-// import useLocalStorage from "./hooks/useLocalStorage";
-import useJoblyAPI from "./hooks/useJoblyAPI";
+import { useHistory, useParams } from "react-router-dom";
 
 const INITIAL_DATA = {
     username: "",
@@ -11,18 +8,14 @@ const INITIAL_DATA = {
     email: "",
 };
 function Profile({ JoblyApi, username }) {
-    // const [JoblyApi, clearUserInfo, username, addUserToken] = useJoblyAPI();
 
     const [form, setForm] = useState(INITIAL_DATA);
     const { id } = useParams();
-    console.log("prof");
-    console.log(id);
 
     const history = useHistory();
     useEffect(() => {
         async function retrieveData() {
             const userData = await JoblyApi.getUserData(username);
-            console.log(userData);
             if (userData && userData.username == id) {
                 setForm({
                     username: userData.username,
@@ -35,10 +28,9 @@ function Profile({ JoblyApi, username }) {
             }
         }
         retrieveData();
-    }, [username]);
+    }, [username, JoblyApi, history, id]);
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log(form);
         setForm((fData) => {
             delete fData.username;
             return { ...fData, [name]: value };
@@ -47,8 +39,6 @@ function Profile({ JoblyApi, username }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // const [name, value] = e.target;
-        // setForm({ ...INITIAL_DATA, [name]: value });
         const token = await JoblyApi.editAccount(form, username);
 
         return history.push("/");

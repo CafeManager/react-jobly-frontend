@@ -1,4 +1,4 @@
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import CompanyList from "./CompanyList";
 import CompanyDetails from "./CompanyDetails";
 import JobList from "./JobList";

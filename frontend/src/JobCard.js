@@ -10,8 +10,6 @@ function JobCard({
     applyToJob,
 }) {
     const [applied, setApplied] = useState(appliedList.includes(id));
-    console.log(appliedList);
-    console.log(appliedList.find((ele) => id !== ele.id) != -1);
 
     const handleOnClick = () => {
         applyToJob(id);

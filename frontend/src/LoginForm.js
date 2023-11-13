@@ -8,8 +8,6 @@ const INITIAL_DATA = {
 function LoginForm({ setCurrUser, JoblyApi, addUserToken, clearUserInfo }) {
     const history = useHistory();
     const [form, setForm] = useState(INITIAL_DATA);
-    //const [JoblyApi, clearUserInfo, username, addUserToken] = useJoblyAPI();
-    console.log(JoblyApi.token);
     const handleChange = (e) => {
         e.preventDefault();
         const { name, value } = e.target;
@@ -18,10 +16,8 @@ function LoginForm({ setCurrUser, JoblyApi, addUserToken, clearUserInfo }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const [name, value] = e.target;
         const token = await JoblyApi.loginUser(form);
-        console.log(token);
-        console.log(form);
+
         clearUserInfo();
         if (token) {
             await addUserToken(form.username, token);

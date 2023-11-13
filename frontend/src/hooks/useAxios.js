@@ -1,6 +1,5 @@
 import { useState } from "react";
 import axios from "axios";
-import uuid from "uuid";
 
 function useAxios(endpoint = "") {
     const [data, setData] = useState([]);

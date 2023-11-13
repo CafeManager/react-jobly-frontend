@@ -1,6 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
-import uuid from "uuid";
 import JoblyApi from "../api";
 import useLocalStorage from "./useLocalStorage";
 
