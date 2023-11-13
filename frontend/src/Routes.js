@@ -4,11 +4,14 @@ import CompanyDetails from "./CompanyDetails";
 import JobList from "./JobList";
 import Profile from "./Profile";
 import LoginForm from "./LoginForm";
-import LogOutForm from "./LogOutForm";
 import Home from "./Home";
+import RegisterForm from "./RegisterForm";
 
-function Routes() {
+function Routes({ setCurrUser, JoblyApi, addUserToken, username }) {
     <>
+        <Route exact path="/">
+            <Home></Home>
+        </Route>
         <Route exact path="/companies">
             <CompanyList></CompanyList>
         </Route>
@@ -18,19 +21,20 @@ function Routes() {
         <Route exact path="/jobs">
             <JobList></JobList>
         </Route>
-        <Route exact path="/user/:id">
-            <Profile></Profile>
+        <Route exact path="/user/register">
+            <RegisterForm setCurrUser={setCurrUser}></RegisterForm>
         </Route>
         <Route exact path="/user/login">
-            <LoginForm></LoginForm>
-        </Route>
-        <Route exact path="/user/logout">
-            <LogOutForm></LogOutForm>
-        </Route>
-        <Route exact path="/">
-            <Home></Home>
+            <LoginForm
+                setCurrUser={setCurrUser}
+                JoblyApi={JoblyApi}
+                addUserToken={addUserToken}
+            ></LoginForm>
         </Route>
 
+        <Route exact path="/user/:id">
+            <Profile username={username} JoblyApi={JoblyApi}></Profile>
+        </Route>
         <Route path="*">
             <Redirect to="/"></Redirect>
         </Route>

@@ -1,22 +1,73 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const INITIAL_DATA = {
     username: "",
     password: "",
 };
-function LoginForm() {
+function LoginForm({ setCurrUser, JoblyApi, addUserToken, clearUserInfo }) {
+    const history = useHistory();
     const [form, setForm] = useState(INITIAL_DATA);
-
+    //const [JoblyApi, clearUserInfo, username, addUserToken] = useJoblyAPI();
+    console.log(JoblyApi.token);
     const handleChange = (e) => {
+        e.preventDefault();
         const { name, value } = e.target;
         setForm((fData) => ({ ...fData, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         const [name, value] = e.target;
-        setForm({ ...INITIAL_DATA, [name]: value });
+        const token = await JoblyApi.loginUser(form);
+        console.log(token);
+        console.log(form);
+        clearUserInfo();
+        if (token) {
+            await addUserToken(form.username, token);
+        }
+
+        setCurrUser(form.username);
+        return history.push("/");
     };
-    return <h1> login </h1>;
+    return (
+        <>
+            <form
+                onSubmit={handleSubmit}
+                className="w-50"
+                style={{ marginLeft: "25%" }}
+            >
+                <div class="mb-3">
+                    <label for="username" class="form-label w-100 text-start">
+                        Username
+                    </label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="username"
+                        name="username"
+                        onChange={handleChange}
+                    />
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label w-100 text-start">
+                        Password
+                    </label>
+                    <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        name="password"
+                        onChange={handleChange}
+                    />
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Submit
+                </button>
+            </form>
+        </>
+    );
 }
 
 export default LoginForm;

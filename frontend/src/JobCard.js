@@ -1,13 +1,33 @@
-function JobCard({ title, companyName, equity, salary }) {
+import { useState } from "react";
+
+function JobCard({
+    id,
+    title,
+    companyName,
+    equity,
+    salary,
+    appliedList,
+    applyToJob,
+}) {
+    const [applied, setApplied] = useState(appliedList.includes(id));
+    console.log(appliedList);
+    console.log(appliedList.find((ele) => id !== ele.id) != -1);
+
+    const handleOnClick = () => {
+        applyToJob(id);
+        setApplied(!applied);
+    };
+
     return (
         <>
             <div
                 className="card"
                 style={{
-                    width: "90%",
+                    width: "70%",
                     marginTop: "1rem",
                     marginLeft: "auto",
                     marginRight: "auto",
+                    textAlign: "start",
                 }}
             >
                 <div className="card-body">
@@ -20,6 +40,21 @@ function JobCard({ title, companyName, equity, salary }) {
                     <p className="fs-6 text-start card-text">
                         Equity: {equity}
                     </p>
+                    {!applied ? (
+                        <button
+                            onClick={handleOnClick}
+                            className="btn btn-danger d-block ms-auto"
+                        >
+                            APPLY
+                        </button>
+                    ) : (
+                        <button
+                            disabled
+                            className="btn btn-danger d-block ms-auto"
+                        >
+                            APPLIED
+                        </button>
+                    )}
                 </div>
             </div>
         </>

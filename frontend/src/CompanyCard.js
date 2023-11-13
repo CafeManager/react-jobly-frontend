@@ -5,10 +5,11 @@ function CompanyCard({ handle, logoUrl, name, description }) {
         <div
             className="card"
             style={{
-                width: "90%",
+                width: "70%",
                 marginTop: "1rem",
                 marginLeft: "auto",
                 marginRight: "auto",
+                textAlign: "start",
             }}
         >
             <Link
